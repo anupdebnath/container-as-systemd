@@ -28,6 +28,10 @@ podman-compose up -d
 echo "Generating podman systemd files..."
 podman generate systemd --new --files --name "$container_name"
 
+# Stop and remove containers created with podman-compose
+echo "Stopping and removing containers created with podman-compose..."
+podman-compose down
+
 # Copy the podman service file to systemd user directory
 echo "Copying the podman service file to systemd user directory..."
 cp -Z "$service_name.service" ~/.config/systemd/user/
