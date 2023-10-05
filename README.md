@@ -7,4 +7,7 @@ This script automates the process of configuring a podman container to start aut
 1. Open terminal and navigate to the directory where container is located.
 2. Download or copy the `run.sh`.
 3. Make the script executable if it's not already:
-   `bash chmod +x ./run.sh`
+   ```
+   chmod +x run.sh
+   ./run.sh
+   ```
