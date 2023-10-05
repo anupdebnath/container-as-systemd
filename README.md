@@ -11,3 +11,4 @@ This script automates the process of configuring a podman container to start aut
    chmod +x run.sh
    ./run.sh
    ```
+   Learn more about how to [Configure a container to start automatically as a systemd service](https://www.redhat.com/sysadmin/container-systemd-persist-reboot)
