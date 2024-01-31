@@ -27,32 +27,40 @@ fi
 service_name="container-$container_name"
 
 # Start the container using podman-compose
-echo "Starting the container using podman-compose..."
-podman-compose up -d
+if ! podman-compose up -d; then
+    echo "Error: Failed to start containers with podman-compose."
+    exit 1
+fi
 
 # Generate podman systemd files
-echo "Generating podman systemd files..."
-podman generate systemd --new --files --name "$container_name"
+if ! podman generate systemd --new --files --name "$container_name"; then
+    echo "Error: Failed to generate podman systemd files."
+    exit 1
+fi
 
 # Stop and remove containers created with podman-compose
-echo "Stopping and removing containers created with podman-compose..."
 podman-compose down
 
 # Copy the podman service file to systemd user directory
-echo "Copying the podman service file to systemd user directory..."
 cp -Z "$service_name.service" ~/.config/systemd/user/
 
 # Reload the systemd user service manager
-echo "Reloading the systemd user service manager..."
-systemctl --user daemon-reload
+if ! systemctl --user daemon-reload; then
+    echo "Error: Failed to reload the systemd user service manager."
+    exit 1
+fi
 
 # Start the container as a systemd service
-echo "Starting the container as a systemd service..."
-systemctl --user start "$service_name.service"
+if ! systemctl --user start "$service_name.service"; then
+    echo "Error: Failed to start the systemd service."
+    exit 1
+fi
 
 # Enable the systemd service to start on boot
-echo "Enabling the systemd service to start on boot..."
-systemctl --user enable "$service_name.service"
+if ! systemctl --user enable "$service_name.service"; then
+    echo "Error: Failed to enable the systemd service to start on boot."
+    exit 1
+fi
 
 # Display status information
 echo "Service Status Information:"
