@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Check if podman-compose is installed
+if ! command -v podman-compose &> /dev/null; then
+    echo "Error: podman-compose not found. Please install podman-compose."
+    exit 1
+fi
+
 # The path to your Docker Compose file
 compose_file="docker-compose.yml"
 
